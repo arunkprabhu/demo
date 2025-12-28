@@ -17,17 +17,17 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install root deps
-        run: npm ci
+      - name: Install root deps (use ci if possible)
+        run: npm ci || npm install
 
-      - name: Install frontend deps
-        run: cd frontend && npm ci
+      - name: Install frontend deps (use ci if possible)
+        run: npm ci --prefix frontend || npm install --prefix frontend
 
       - name: Build frontend (test)
-        run: cd frontend && npm test
+        run: npm test --prefix frontend
 
-      - name: Install backend deps
-        run: cd backend && npm ci
+      - name: Install backend deps (use ci if possible)
+        run: npm ci --prefix backend || npm install --prefix backend
 
       - name: Run backend smoke test
-        run: cd backend && npm test
+        run: npm test --prefix backend
