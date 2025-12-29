@@ -1,21 +1,18 @@
-const express = require('express')
-const path = require('path')
-const app = express()
-const port = process.env.PORT || 3000
+const express = require('express');
+const cors = require('cors');
+const app = express();
+const port = process.env.PORT || 5000;
 
-// basic API route
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello from Express!' })
-})
+app.use(cors());
 
-// (Optional) Serve static built frontend if present
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')))
+app.get('/api', (req, res) => {
+  res.json({ message: 'hello' });
+});
 
-// fallback to index.html for SPA routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
-})
+module.exports = app;
 
-app.listen(port, () => {
-  console.log(`Express backend listening on http://localhost:${port}`)
-})
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server listening on http://localhost:${port}`);
+  });
+}

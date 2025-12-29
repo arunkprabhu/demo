@@ -1,63 +1,58 @@
-# Demo Vite + React frontend and Express backend
+# Task Manager - Technical Assessment
 
-Minimal project showing a Vite + React frontend and a minimal Express backend.
+## Overview
+A minimal demo application consisting of a backend (Express) and a frontend (Vite + React). The frontend fetches a message from the backend at startup and displays it.
 
-Getting started
+## What's included
+- `backend/` — Express app (GET `/api` returns `{ message: 'hello' }`) and Nodemon for development
+- `frontend/` — Vite + React app that fetches `/api` on mount and shows the message in an `h1`
+- `docker-compose.yml` — development compose setup with `backend` and `frontend` services
 
-1. Install root dev deps (concurrently):
+## Tech Stack
+- Frontend: React 18, Vite
+- Backend: Node.js, Express
+- Containerization: Docker & Docker Compose
 
+## Prerequisites
+- Node.js (16+)
+- npm
+- Docker Desktop (optional, for running via Docker Compose)
+
+## Local development (recommended)
+### Backend
 ```bash
-cd demo
+cd backend
 npm install
-# then install frontend and backend deps
-cd frontend && npm install
-cd ../backend && npm install
-```
-
-2. Run both dev servers from root:
-
-```bash
 npm run dev
+# server listens on http://localhost:5000
 ```
 
-- Frontend (Vite) runs on port 5173 by default.
-- Backend (Express) runs on port 3000 by default and exposes `/api/hello`.
-
-Build & serve
-
+### Frontend
 ```bash
-npm run build:frontend
-npm run start:backend
+cd frontend
+npm install
+npm run dev
+# Vite dev server typically available at http://localhost:5173
+# (If using docker-compose mapping, access via http://localhost:5174)
 ```
 
-This serves the built frontend from `frontend/dist`.
-
-## Docker (quickstart)
-
-Build and run both services with Docker Compose:
-
+### Docker (both services)
 ```bash
-# from project root (demo)
 docker compose up --build
 ```
+- Backend: http://localhost:5000/api
+- Frontend: http://localhost:5174 (mapped to container port 5173)
 
-- Frontend will be available at: http://localhost:5173 (served by nginx)
-- Backend API will be available at: http://localhost:3000/api/hello
-- The frontend nginx proxy will forward `/api/` requests to the backend service.
+## API
+- GET `/api` — returns `{ "message": "hello" }`
 
-Stop and remove containers:
+## Notes
+- CORS: the backend uses the `cors` middleware to allow frontend requests from the dev host.
+- To build a production frontend, run `npm run build` in `frontend/` and serve the generated `dist` directory.
 
-```bash
-docker compose down
-```
+## Troubleshooting
+- If the frontend cannot fetch `/api`, ensure the backend is running on port 5000 and CORS is enabled.
 
-## CI / CD
+---
 
-Two example GitHub Actions workflows are included to get you started:
-
-- `.github/workflows/ci.yml` — runs on push and PRs: installs dependencies, builds the frontend, and runs a backend smoke test.
-- `.github/workflows/docker-publish.yml` — runs on pushes to `main`: builds and pushes Docker images for frontend and backend to GitHub Container Registry (GHCR).
-
-Notes:
-- The Docker publish workflow pushes images to `ghcr.io/<owner>/demo-frontend:latest` and `ghcr.io/<owner>/demo-backend:latest` using `GITHUB_TOKEN` so no extra secrets are required for public repos; for private repo/package settings you may need to grant package write permissions or configure an additional secret.
-
+If you'd like, I can also add a small CI workflow (GitHub Actions) that runs linting and builds both projects. Confirm if you want that included.

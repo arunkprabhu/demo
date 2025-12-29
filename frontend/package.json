@@ -1,12 +1,11 @@
 {
-  "name": "demo-frontend",
+  "name": "frontend",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "test": "npm run build --silent"
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.2.0",

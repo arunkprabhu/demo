@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+
 export default function App() {
-    
-  return (
-    <div className="app">
-      <h1>Vite + React</h1>
-      <p>This is a minimal frontend served by Vite.</p>
-      <p>Try fetching from <code>/api/hello</code> to hit the Express backend.</p>
-    </div>
-  )
+  const [message, setMessage] = useState('Loading...');
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api')
+      .then((res) => res.json())
+      .then((data) => setMessage(data?.message ?? 'No message'))
+      .catch(() => setMessage('Error fetching message'));
+  }, []);
+
+  return <h1>{message}</h1>;
 }
