@@ -25,13 +25,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
 
-      - name: Backend: Install & optional test
+      - name: 'Backend: Install & optional test'
         working-directory: backend
         run: |
           npm ci
           npm test || echo "no tests"
 
-      - name: Frontend: Install & Build
+      - name: 'Frontend: Install & Build'
         working-directory: frontend
         run: |
           npm ci
