@@ -23,13 +23,26 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Setup Node.js (backend cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
           cache: npm
+          cache-dependency-path: backend/package-lock.json
 
       - name: 'Backend: Install & optional test'
         working-directory: backend
         run: |
           npm ci
           npm test || echo "no tests"
+
+      - name: Setup Node.js (frontend cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
 
       - name: 'Frontend: Install & Build'
         working-directory: frontend
